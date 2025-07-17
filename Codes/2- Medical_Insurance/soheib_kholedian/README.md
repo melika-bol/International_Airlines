@@ -1,137 +1,234 @@
-# Medical Inssurance 
+# Medical Insurance Cost Analysis and Prediction
 
-in this study I have done research on this [dataset](https://www.kaggle.com/datasets/imtkaggleteam/health-insurance-dataset) that is for Medical Inssurance i have tride to find 
-what is have realtion on expenses, premium 
+## Project Summary
 
-## data Anlisis
+In this study, we conducted a comprehensive analysis and prediction task on a medical insurance dataset obtained from [Kaggle](https://www.kaggle.com/datasets/imtkaggleteam/health-insurance-dataset). The goal was to uncover the most influential factors affecting insurance **expenses** and **premium** costs, and to build machine learning models that could accurately predict them.
 
-### 1. data Distribution
+Through data exploration, feature analysis, and the use of robust regression algorithms (Random Forest and XGBoost), we ensured accurate predictions without excluding outliers—acknowledging their significance in real-world medical datasets.
 
-the data has two kind of first categoracal and numberic 
+---
 
-![categoracal distribtion](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Distribution.png)
+## 1. Exploratory Data Analysis (EDA)
 
-> the age, region are distributed close to evenly between theire classes but the discount_eligibility is 70% no showing the majority of our data are not fitted for a discount
+### 1.1 Dataset Overview
 
-![numbrec distribtion](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Distributions%20of%20Numeric%20Columns.png)
+| Feature  | Count | Mean     | Std      | Min     | 25%     | 50%     | 75%      | Max      |
+| -------- | ----- | -------- | -------- | ------- | ------- | ------- | -------- | -------- |
+| Age      | 1338  | 39.21    | 14.05    | 18.00   | 27.00   | 39.00   | 51.00    | 64.00    |
+| BMI      | 1338  | 30.67    | 6.10     | 16.00   | 26.30   | 30.40   | 34.70    | 53.10    |
+| Children | 1338  | 1.09     | 1.21     | 0.00    | 0.00    | 1.00    | 2.00     | 5.00     |
+| Expenses | 1338  | 13270.42 | 12110.01 | 1121.87 | 4740.29 | 9382.03 | 16639.92 | 63770.43 |
+| Premium  | 1338  | 262.87   | 292.53   | 11.22   | 87.35   | 174.99  | 342.91   | 1983.11  |
 
-> all the numbric data have the Wrinkles on the roller side even the bmi that has normalize distribution is a littel bet to the wright side 
+### 1.2 Feature Distribution
 
-## 2. outliyer detction 
+Categorical and numerical distributions were visualized:
 
-to find oulyer i have used the IQR rule and the outlier that i have found are 
+* **Categorical Distribution:**
+  ![Categorical Distribution](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Distribution.png)
+
+  > Variables like `region` and `gender` are evenly distributed. However, `discount_eligibility` is skewed: 70% of individuals are ineligible, implying limited access to insurance discounts.
+
+* **Numerical Distribution:**
+  ![Numerical Distribution](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Distributions%20of%20Numeric%20Columns.png)
+
+  > All numerical variables show slight skewness, particularly `expenses` and `premium`. BMI shows near-normal distribution but leans slightly right.
+
+### 1.3 Outlier Detection
+
+Using the **IQR Rule**, the following outliers were found:
 
 | Column   | Number of Outliers | Mean of Outliers |
-| -------- | ------------------ | ---------------: |
-| Age      | 0                  |             None |
-| BMI      | 9                  |            49.28 |
-| Children | 0                  |             None |
-| Expenses | 139                |         42103.95 |
-| Premium  | 113                |          1021.56 |
+| -------- | ------------------ | ---------------- |
+| Age      | 0                  | None             |
+| BMI      | 9                  | 49.28            |
+| Children | 0                  | None             |
+| Expenses | 139                | 42103.95         |
+| Premium  | 113                | 1021.56          |
 
-![scatter plot hilelitting the outlier](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Scatter%20Plots%20Highlighting%20Outliers.png)
+Outlier visualization:
+![Outliers Scatter Plot](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Scatter%20Plots%20Highlighting%20Outliers.png)
 
-age dos not have any oultlier in it 
-
-bmi outliyers are not anything to high or wierd consedring the over wieth and fatnes is to hirgh writh now 
-
-in preimum and expences is the place that most of the outlier are and the number are to hiegh our mean are 42103.95, 1021.56 but there are not erorr or made up data
-becous cose of insurense is hiegh spethily for peple with spesol seckness 
-
-## 3. reltion study between the featur 
-
-1. Correlation Heatmap of Numeric Features
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Correlation%20Heatmap%20of%20Numeric%20Features.png)
-
-in this heat map there are some strong linear reltion between premium and expences it's 0.85 and onely other high number is between the age and premium suggesting
-that as peple get older thry pay hier for insurenc
-
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Average%20Premium-Expenses.png)
-
-for or catgoracl data we have some intesting thiges peple with 2 or 3 cheldrian have much hier incurinse cost then peple with 4 or 5 this can suggest that femailly 
-more then 4 chial are discount_eligibil for a discount 
-> it's just a gess not sure
-
-the other thing is the discount_eligibility peple that have discount pay more then other suggesting that maby peple that have spetiol conetion are more likely
-to have disscount
-
-other featur don't have a strond difrence
-
-but to make sure i have look it them more colesly
-
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Age%20vs%20Expenses%20colored%20by%20Gender.png)
-
-* Both genders show increasing expenses with age; males slightly higher.
-
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/BMI%20vs%20Premium%20colored%20by%20Region.png)
-
-* Southeast region stands out with higher premiums for similar BMI ranges.
-
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Insurance%20Premium%20vs%20Expenses.png)
-
-* Distinct diagonal bands; strongest direct relationship; likely reflects pricing tiers.
-
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Pairplot%20of%20Numeric%20Columns%20colored%20by%20Gender.png)
-
-* Confirms small gender differences; males sometimes higher in expenses and premium.
-
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Pairplot%20of%20Numeric%20Columns%20colored%20by%20discount_eligibility.png)
-
-* Distinct clustering: "yes" group concentrated at high expenses and premiums; confirms discount\_eligibility as strongest cost driver.
-
-![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Scatter%20Plots%20Important%20Features%20vs%20Expenses%20%26%20Premium.png)
-
-* Age shows upward trends; clear cost bands suggest other influencing factors.
-* BMI has a mild upward trend; wide scatter shows it’s not the sole driver.
-* Number of children: minimal impact.
----
-## 2. model selction 
-
-since i have the outliyer and I absoltly didn't wented to delet them and chopping wasn't writh in my opnian i deceded to use model that are robust to outliyer and i used the XGboost and Random Forest 
-
----
-## 3. preprossing 
-
-since the my model didn't requer any normoleztion ar standeredzion i just used lable encoder and one hot encoder for my catogrecal data and split them to test and train 
---- 
-## 4. model traing
-
-i train my model by 3 deffrent goale 
-
-1. frist scenario:
-
-i triad to train them to predict bouth premuim and expences at same time
-
-x -> age, gender, bmi, children, discount_eligibility, region
-
-y -> expinces, premuim
-
-2. secand scenario
-
-onley to predict the expences
-
-x -> age, gender, bmi, children, discount_eligibility, region, premuim
-
-y -> expinces
-
-3. 3rd scenario
-
-onley to predict the premuim
-
-x -> age, gender, bmi, children, discount_eligibility, region, expences
-
-y -> premuim
+> These outliers are meaningful, especially in `expenses` and `premium`, where high costs relate to chronic conditions or advanced medical treatments. They were **kept** to preserve real-world variability.
 
 ---
 
-5.valedtion
+## 2. Feature Relationships
 
-i use shap to see the reltion between x and y and conferm my finding in data anlisi and find any unlinyer realtion
+### 2.1 Correlation Analysis
 
-first senreio
+* **Heatmap of Numeric Features:**
+  ![Correlation Heatmap](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Correlation%20Heatmap%20of%20Numeric%20Features.png)
 
-Feature	MAE	MSE	RMSE	R2
-expenses	2524.890146	21303382.92	4615.558787	0.862779023
-premium	43.75510628	6846.682495	82.74468258	0.926017562
+  > Strong correlation (0.85) exists between `premium` and `expenses`. A moderate correlation exists between `age` and `premium`, implying higher insurance premiums for older individuals.
 
+* **Categorical Insights:**
+  ![Average Premium-Expenses](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Average%20Premium-Expenses.png)
 
+  > * People with 2-3 children have higher expenses than those with 4-5, potentially due to discount eligibility.
+  > * Surprisingly, those with `discount_eligibility = yes` spend **more**—possibly indicating discounts for high-risk cases.
+
+### 2.2 Deep Feature Exploration
+
+* **Age vs Expenses by Gender:**
+  ![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Age%20vs%20Expenses%20colored%20by%20Gender.png)
+
+* **BMI vs Premium by Region:**
+  ![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/BMI%20vs%20Premium%20colored%20by%20Region.png)
+
+* **Premium vs Expenses (clear bands):**
+  ![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Insurance%20Premium%20vs%20Expenses.png)
+
+* **Pairplot (Gender-based):**
+  ![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Pairplot%20of%20Numeric%20Columns%20colored%20by%20Gender.png)
+
+* **Pairplot (Discount-based):**
+  ![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Pairplot%20of%20Numeric%20Columns%20colored%20by%20discount_eligibility.png)
+
+* **Important Features vs Targets:**
+  ![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/data_analysis_plots/Scatter%20Plots%20Important%20Features%20vs%20Expenses%20%26%20Premium.png)
+
+## 3. Limitations
+
+One limitation is that the dataset lacks medical history or diagnosis information, which can heavily influence expenses.
+
+---
+
+## 3. Modeling Pipeline
+
+### 3.1 Preprocessing
+
+* **Encoding:** Used `LabelEncoder` and `OneHotEncoder` for categorical variables.
+* **Splitting:** Standard train-test split.
+* **No normalization/standardization** required as models (RF, XGBoost) are tree-based.
+
+### 3.2 Modeling Scenarios
+
+Three supervised regression tasks:
+
+1. **Joint Prediction**: Predict both `expenses` and `premium` from demographic and region info.
+2. **Single Prediction (Expenses)**: Use all features including `premium`.
+3. **Single Prediction (Premium)**: Use all features including `expenses`.
+
+Models used:
+
+* Random Forest Regressor
+* XGBoost Regressor
+
+  > The reason behind using this model is that I did not want to modify or remove any outliers, and this model is known to be robust to them.
+
+---
+
+## 4. Results and Evaluation
+
+### 4.1 Joint Prediction (expenses & premium)
+
+**Random Forest:**
+
+| Target   | MAE     | MSE         | RMSE    | R2     |
+| -------- | ------- | ----------- | ------- | ------ |
+| Expenses | 2524.89 | 21303382.92 | 4615.56 | 0.8628 |
+| Premium  | 43.76   | 6846.68     | 82.74   | 0.9260 |
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomForest_join_goal/expenses_prediction_plot.png)
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomForest_join_goal/premium_prediction_plot.png)
+
+SHAP Importance:
+
+![SHAP Summary Expenses](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomForest_join_goal/shap_summary_expenses.png)
+
+![SHAP Summary Premium](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomForest_join_goal/shap_summary_premium.png)
+
+**XGBoost:**
+
+| Target   | MAE     | MSE         | RMSE    | R2     |
+| -------- | ------- | ----------- | ------- | ------ |
+| Expenses | 2524.05 | 20220715.76 | 4496.75 | 0.8698 |
+| Premium  | 43.01   | 6768.38     | 82.27   | 0.9269 |
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_join_goal/expenses_prediction_plot.png)
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_join_goal/premium_prediction_plot.png)
+
+SHAP Importance:
+
+![SHAP Summary Expenses](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_join_goal/shap_summary_expenses.png)
+
+![SHAP Summary Premium](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_join_goal/shap_summary_premium.png)
+
+### 4.2 Predicting Only Expenses
+
+**Random Forest:**
+
+| MAE    | MSE       | RMSE   | R2     |
+| ------ | --------- | ------ | ------ |
+| 197.78 | 944955.07 | 972.09 | 0.9939 |
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomFores_predict_expenses/expenses_prediction_plot.png)
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomFores_predict_expenses/shap_summary_expenses.png)
+
+**XGBoost:**
+
+| MAE    | MSE        | RMSE    | R2     |
+| ------ | ---------- | ------- | ------ |
+| 224.94 | 1086162.88 | 1042.19 | 0.9930 |
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_predict_expenses/expenses_prediction_plot.png)
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_predict_expenses/shap_summary_expenses.png)
+
+### 4.3 Predicting Only Premium
+
+**Random Forest:**
+
+| MAE  | MSE    | RMSE  | R2     |
+| ---- | ------ | ----- | ------ |
+| 4.79 | 725.08 | 26.93 | 0.9922 |
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomFores_predict_premium/premium_prediction_plot.png)
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/RandomFores_predict_premium/shap_summary_premium.png)
+
+**XGBoost:**
+
+| MAE  | MSE   | RMSE | R2     |
+| ---- | ----- | ---- | ------ |
+| 3.01 | 98.57 | 9.93 | 0.9989 |
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_predict_premium/premium_prediction_plot.png)
+
+![](https://github.com/SoheibKhaledian/IMT/blob/soheib_khaledian_Medical_Insurance/Codes/2-%20Medical_Insurance/soheib_kholedian/results/xgboost_predict_premium/shap_summary_premium.png)
+
+> While model performance is high (R² ≈ 0.99), care should be taken to evaluate overfitting via cross-validation or testing on unseen data.
+
+---
+
+## 5. SHAP-Based Interpretability
+
+* **Premium and Expenses** are most influenced by:
+
+  * **Age**: Older individuals pay more.
+  * **Discount Eligibility**: Strong cost driver—those eligible tend to have higher expenses.
+  * **Region & BMI**: Affect premium noticeably.
+
+SHAP confirms **non-linear relationships**, especially with `discount_eligibility` and `region`.
+
+---
+
+## 6. Conclusion & Recommendations
+
+* The model successfully captured key relationships in the insurance dataset.
+* **XGBoost** slightly outperforms **Random Forest** in most scenarios.
+* Discount eligibility and premium are strong predictors of expenses.
+* **Recommendation**: Use **separate models** for expenses and premium when maximum accuracy is desired.
+* SHAP confirms feature importance and aligns with EDA findings.
+
+> This pipeline is a strong base for insurance companies to automate pricing, understand customer segments, and offer tailored services.
+
+---
+
+**📝 Report by:** *Soheib Khaledian*
+
+---
