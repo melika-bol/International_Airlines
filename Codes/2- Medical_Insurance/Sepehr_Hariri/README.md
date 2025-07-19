@@ -19,25 +19,24 @@ A machine learning project to predict insurance expenses based on demographic an
 ## 📂 Project Structure
 
 Medical_Insurance/
+
 │
 
 ├── data/ # Input CSV data
 
 ├── models/ # Saved trained model
 
-├── notebooks/
-
-│ └── Medical_Insurance_Sepehrhariri.ipynb # Data exploration
+├── Medical_Insurance_SepehrHariri.ipynb # Data exploration
 
 ├── scripts/
 
-│ ├── preprocessing.py # Data cleaning & encoding
+│    ├── preprocessing.py # Data cleaning & encoding
 
-│ ├── modeling.py # Model pipeline creation
+│    ├── modeling.py # Model pipeline creation
 
-│ ├── evaluation.py # Metrics & plots
+│    ├── evaluation.py # Metrics & plots
 
-│ └── save_model.py # Model serialization
+│    └── save_model.py # Model serialization
 
 ├── main.py # Training script
 
@@ -64,8 +63,8 @@ Medical_Insurance/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/SepehrHariri/IMT/2- Medical_Insurance.git
-   cd 2- Medical_Insurance
+   git clone https://github.com/SepehrHariri/IMT.git
+   cd Codes/2-Medical_Insurance/Sepehr_Hariri
 
 ---------------------------------------------------------------------------------------------
 
@@ -88,10 +87,12 @@ Medical_Insurance/
 🧪 Model Evaluation Example
 
 Premium
+
    XGboost: RMSE: 9.1036 , R² Score: 0.9945
    Random Forest: RMSE: 29.0428 , R² Score: 0.9443
 
 Expenses
+
    XGboost: RMSE: 11.8529 , R² Score: 0.9907
    Random Forest: RMSE: 28.7963 , R² Score: 0.9452
 
