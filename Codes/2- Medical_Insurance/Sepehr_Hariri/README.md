@@ -10,8 +10,8 @@ A machine learning project to predict insurance expenses based on demographic an
 
 - 📊 Exploratory Data Analysis (EDA)
 - ⚙️ Feature Engineering & Preprocessing
-- 🧠 Regression Modeling (Linear, Random Forest, XGBoost)
-- 📈 Model Evaluation (R², RMSE)
+- 🧠 Regression Modeling (Decision Tree, K-Neighbors, Random Forest, XGBoost)
+- 📈 Model Evaluation (R², rmse, mae, adj_R²)
 - 💾 Model Saving & Loading
 
 ---
@@ -20,17 +20,29 @@ A machine learning project to predict insurance expenses based on demographic an
 
 Medical_Insurance/
 │
+
 ├── data/ # Input CSV data
+
 ├── models/ # Saved trained model
+
 ├── notebooks/
-│ └── eda.ipynb # Data exploration
+
+│ └── Medical_Insurance_Sepehrhariri.ipynb # Data exploration
+
 ├── scripts/
+
 │ ├── preprocessing.py # Data cleaning & encoding
+
 │ ├── modeling.py # Model pipeline creation
+
 │ ├── evaluation.py # Metrics & plots
+
 │ └── save_model.py # Model serialization
+
 ├── main.py # Training script
+
 ├── requirements.txt # Python dependencies
+
 └── README.md # Project overview
 
 
@@ -59,7 +71,7 @@ Medical_Insurance/
 
 2. Install dependencies:
 
-pip install -r requirements.txt
+   pip install -r requirements.txt
 
 ---------------------------------------------------------------------------------------------
 
@@ -69,15 +81,19 @@ pip install -r requirements.txt
 
 4. Run the training pipeline:
 
-python main.py
+   python main.py
 
 ---------------------------------------------------------------------------------------------
 
 🧪 Model Evaluation Example
 
-XGboost
-RMSE: 9.1036 
-R² Score: 0.99
+Premium
+   XGboost: RMSE: 9.1036 , R² Score: 0.9945
+   Random Forest: RMSE: 29.0428 , R² Score: 0.9443
+
+Expenses
+   XGboost: RMSE: 11.8529 , R² Score: 0.9907
+   Random Forest: RMSE: 28.7963 , R² Score: 0.9452
 
 📦 Output
 Trained model saved to: models/insurance_model.pkl
